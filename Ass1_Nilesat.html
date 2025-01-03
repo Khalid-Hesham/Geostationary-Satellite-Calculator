@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Satellite Parameters Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f5f5f5;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        input[type="number"], select {
+            width: calc(100% - 100px);
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            display: inline-block;
+        }
+
+        select {
+            width: 80px;
+            margin-left: 10px;
+            display: inline-block;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 1.1em;
+            color: white;
+            background: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .results {
+            margin-top: 20px;
+            background: #e9f7ef;
+            padding: 15px;
+            border-left: 5px solid #28a745;
+            border-radius: 5px;
+            font-size: 1.1em;
+            color: #155724;
+        }
+
+        .error {
+            color: #d9534f;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Satellite Parameters Calculator</h1>
+        <form id="parametersForm">
+            <div class="form-group">
+                <label for="sat_longitude">Satellite Longitude (ϕ<sub>SS</sub>) in degrees:</label>
+                <input type="number" id="sat_longitude" placeholder="Enter the satellite longitude">
+                <select id="satLongitudeDirection">
+                    <option value="W">W</option>
+                    <option value="E">E</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="longitude">Earth Station Longitude (ϕ<sub>E</sub>) in degrees:</label>
+                <input type="number" id="longitude" placeholder="Enter the longitude">
+                <select id="longitudeDirection">
+                    <option value="W">W</option>
+                    <option value="E">E</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="latitude">Earth Station Latitude (λ<sub>E</sub>) in degrees:</label>
+                <input type="number" id="latitude" placeholder="Enter the latitude">
+                <select id="latitudeDirection">
+                    <option value="N">N</option>
+                    <option value="S">S</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="latitude">Satellite Transmission Frequency (f</sub>):</label>
+                <input type="number" id="Frequency" placeholder="Enter the frequency">
+                <select id="freqUnit">
+                    <option value="Hz">Hz</option>
+                    <option value="KHz">KHz</option>
+                    <option value="MHz">MHz</option>
+                    <option value="GHz">GHz</option>
+                </select>
+            </div>
+            <button type="button" onclick="calculateParameters()">Calculate</button>
+        </form>
+        <div id="results" class="results" style="display: none;"></div>
+    </div>
+
+    <script>
+        function calculateParameters() {
+            const earthLon = parseFloat(document.getElementById("longitude").value);
+            const earthLat = parseFloat(document.getElementById("latitude").value);
+            const satLon = parseFloat(document.getElementById("sat_longitude").value);
+            const lonDirection = document.getElementById("longitudeDirection").value;
+            const latDirection = document.getElementById("latitudeDirection").value;
+            const satLonDirection = document.getElementById("satLongitudeDirection").value;
+            const freq = document.getElementById("Frequency").value;
+            const freqUnit = document.getElementById("freqUnit").value;
+
+            if (isNaN(earthLon) || isNaN(earthLat) || isNaN(satLon)) {
+                alert("Please enter valid numbers for all parameters.");
+                return;
+            }
+
+            const adjustedLon = lonDirection === "W" ? -earthLon : earthLon;
+            const adjustedLat = latDirection === "S" ? -earthLat : earthLat;
+            const adjustedSatLon = satLonDirection === "W" ? -satLon : satLon;
+
+            
+            let Brad, B;
+            let brad, b;
+            let Arad, A;
+            let Az;
+            let d;
+            let EL;
+            let S;
+            let brad_min, b_min;
+            let Brad_min, B_min;
+            let VisibilityE, VisibilityW;
+            let VisibilityE_dir, VisibilityW_dir;
+            let f, lambda, FSL;
+
+            
+            B = adjustedLon - adjustedSatLon;
+            Brad = B * (Math.PI / 180);
+            brad = Math.acos(Math.cos(Brad) * Math.cos(adjustedLat * (Math.PI / 180)));
+            b = brad * (180 / Math.PI);
+            Arad = Math.asin(Math.sin(Math.abs(Brad)) / Math.sin(brad));
+            A = Arad * (180 / Math.PI);
+            
+            if (adjustedLat === 0 && B === 0) {
+                Az = "Irrelevant";
+            } else if (adjustedLat === 0 && B < 0) {
+                Az = 90;
+            } else if (adjustedLat === 0 && B > 0) {
+                Az = 270;
+            } else if (adjustedLat < 0 && B === 0) {
+                Az = 0;
+            } else if (adjustedLat > 0 && B === 0) {
+                Az = 180;
+            } else if (adjustedLat < 0 && B < 0) {
+                Az = A;
+            } else if (adjustedLat < 0 && B > 0) {
+                Az = 360 - A;
+            } else if (adjustedLat > 0 && B < 0) {
+                Az = 180 - A;
+            } else if (adjustedLat > 0 && B > 0) {
+                Az = 180 + A;
+            }
+
+            d = Math.sqrt(1818392537 - 537253688 * Math.cos(brad));
+            EL = (Math.acos(42164 * Math.sin(brad) / d)) * (180 / Math.PI);
+            
+            S = Math.asin(0.15126648326 * Math.sin(95 * (Math.PI / 180)));
+            brad_min = 85 * (Math.PI / 180) - S;
+            b_min = brad_min * (180 / Math.PI);
+            Brad_min = Math.acos(Math.cos(brad_min) / Math.cos(adjustedLat * (Math.PI / 180)));
+            B_min = Brad_min * (180 / Math.PI);
+            VisibilityE = adjustedLon - B_min;
+            if (VisibilityE < -180) {
+                visibiltyE_dir = "E";
+            } else {
+                visibiltyE_dir = "W";
+            }
+            VisibilityE = Math.abs(VisibilityE);
+            VisibilityW = adjustedLon + B_min;
+            if (VisibilityW > 180) {
+                visibiltyW_dir = "W";
+            } else {
+                visibiltyW_dir = "E";
+            }
+            VisibilityW = Math.abs(VisibilityW);
+            
+            
+            if (freqUnit === "KHz") {
+                f = freq * 1000;
+            } else if (freqUnit === "MHz") {
+                f = freq * 1000000;
+            } else if (freqUnit === "GHz") {
+                f = freq * 1000000000;
+            }
+            lambda = 300000000 / f;
+            FSL = 20 * Math.log10((4*Math.PI*d)/lambda)
+
+
+            const Polarization = 30; // Example placeholder
+            
+            // Display results
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.style.display = "block";
+            resultsDiv.innerHTML = `
+            <p><strong>Azimuth Angle:</strong> ${Az}&deg;</p>
+            <p><strong>Elevation Angle:</strong> ${EL}&deg;</p>
+            <p><strong>Polarization Angle:</strong> ${Polarization}&deg;</p>
+            <p><strong>Limits of Visibility (Related to the ground station):
+            <p></strong>East Visibility = ${VisibilityW}&deg${visibiltyW_dir}
+            <p></strong>West Visibility = ${VisibilityE}&deg${visibiltyE_dir}
+            <p><strong>Range:</strong> ${d} km</p>
+            <p><strong>Free Space Loss:</strong> ${FSL} dB</p>
+                    `;
+                }
+
+        // Trigger calculation on Enter key press
+        document.getElementById("parametersForm").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                calculateParameters();
+            }
+        });
+    </script>
+</body>
+</html>
