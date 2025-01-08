@@ -118,9 +118,9 @@
                 <label for="latitude">Satellite Transmission Frequency (f</sub>):</label>
                 <input type="number" id="Frequency" placeholder="Enter the frequency">
                 <select id="freqUnit">
+                    <option value="MHz">MHz</option>
                     <option value="Hz">Hz</option>
                     <option value="KHz">KHz</option>
-                    <option value="MHz">MHz</option>
                     <option value="GHz">GHz</option>
                 </select>
             </div>
@@ -162,8 +162,11 @@
             let VisibilityE, VisibilityW;
             let VisibilityE_dir, VisibilityW_dir;
             let f, lambda, FSL;
+            let Rx, Ry, Rz, rx, ry, rz, Kx, Ky, Kz;
+            let Fx, Fy, Fz, gx, gy, gz;
+            let Fabs, gabs, dot, pol;
 
-            
+            // Azimuth
             B = adjustedLon - adjustedSatLon;
             Brad = B * (Math.PI / 180);
             brad = Math.acos(Math.cos(Brad) * Math.cos(adjustedLat * (Math.PI / 180)));
@@ -190,10 +193,14 @@
             } else if (adjustedLat > 0 && B > 0) {
                 Az = 180 + A;
             }
-
+            
+            // Range
             d = Math.sqrt(1818392537 - 537253688 * Math.cos(brad));
+            
+            // Elevation
             EL = (Math.acos(42164 * Math.sin(brad) / d)) * (180 / Math.PI);
             
+            // Limits of visibility
             S = Math.asin(0.15126648326 * Math.sin(95 * (Math.PI / 180)));
             brad_min = 85 * (Math.PI / 180) - S;
             b_min = brad_min * (180 / Math.PI);
@@ -214,7 +221,7 @@
             }
             VisibilityW = Math.abs(VisibilityW);
             
-            
+            // Free Space Loss
             if (freqUnit === "KHz") {
                 f = freq * 1000;
             } else if (freqUnit === "MHz") {
@@ -224,9 +231,35 @@
             }
             lambda = 300000000 / f;
             FSL = 20 * Math.log10((4*Math.PI*d)/lambda)
+            
+            
+            // Polarization
+            Rx = 6371 * Math.cos(adjustedLat * (Math.PI / 180)) * Math.cos(Brad);
+            Ry = 6371 * Math.cos(adjustedLat * (Math.PI / 180)) * Math.sin(Brad);
+            Rz = 6371 * Math.sin(adjustedLat * (Math.PI / 180));
 
+            rx = -1*Rx;
+            ry = -1*Ry;
+            rz = -1*Rz;
 
-            const Polarization = 30; // Example placeholder
+            Kx = Rx - 42164;
+            Ky = Ry;
+            Kz = Rz;
+
+            // F = K x r
+            Fx = Ky*rz - Kz*ry;
+            Fy = Kz*rx - Kx*rz;
+            Fz = Kx*ry - Ky*rx;
+            
+            // g = K x e
+            gx = Ky;
+            gy = -1*Kx;
+            gz = 0;
+
+            Fabs = Math.sqrt(Fx*Fx + Fy*Fy + Fz*Fz);
+            gabs = Math.sqrt(gx*gx + gy*gy + gz*gz);
+            dot = Fx*gx + Fy*gy + Fz*gz;
+            Pol = Math.acos(Math.abs(dot) / (Fabs*gabs)) * (180 / Math.PI);
             
             // Display results
             const resultsDiv = document.getElementById("results");
@@ -234,14 +267,14 @@
             resultsDiv.innerHTML = `
             <p><strong>Azimuth Angle:</strong> ${Az}&deg;</p>
             <p><strong>Elevation Angle:</strong> ${EL}&deg;</p>
-            <p><strong>Polarization Angle:</strong> ${Polarization}&deg;</p>
+            <p><strong>Polarization Angle:</strong> ${Pol}&deg;</p>
             <p><strong>Limits of Visibility (Related to the ground station):
             <p></strong>East Visibility = ${VisibilityW}&deg${visibiltyW_dir}
             <p></strong>West Visibility = ${VisibilityE}&deg${visibiltyE_dir}
             <p><strong>Range:</strong> ${d} km</p>
             <p><strong>Free Space Loss:</strong> ${FSL} dB</p>
-                    `;
-                }
+            `;
+            }
 
         // Trigger calculation on Enter key press
         document.getElementById("parametersForm").addEventListener("keypress", function(event) {
