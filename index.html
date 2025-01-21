@@ -1,68 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Satellite Parameters Calculator</title>
+    <title>GEO Calculator - Modern Design</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
+        /* Satellite Animation */
+        /* @keyframes satelliteOrbit {
+            0% {
+                transform: rotate(0deg) translateX(150px) rotate(50deg);
+            }
+
+            100% {
+                transform: rotate(360deg) translateX(150px) rotate(-360deg);
+            }
+        }
+
+        .satellite {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background-color: #007bff;
+            border-radius: 50%;
+            animation: satelliteOrbit 10s linear infinite;
+        } */
+
+        /* Earth Station Animation
+        @keyframes earthStationPulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .earth-station {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background-color: #28a745;
+            border-radius: 50%;
+            animation: earthStationPulse 2s ease-in-out infinite;
+        } */
+
+        /* Container for Visuals
+        .visuals-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 20px auto;
+            border: 2px solid #007bff;
+            border-radius: 50%;
+            overflow: hidden;
+        } */
+
+        /* Reset Animation on New Search */
+        /* @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        } */
+/* 
+        .results {
+            animation: fadeIn 1s ease-in-out;
+        } */
+
+        /* Background Animation */
+        @keyframes gradientBackground {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f5f5f5;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2, #f5f7fa);
+            background-size: 200% 200%;
+            animation: gradientBackground 10s ease infinite;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Results Animation */
+        .results {
+            margin-top: 30px;
+            background: #e9f7ef;
+            padding: 20px;
+            border-left: 5px solid #28a745;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #155724;
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .results.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .results p {
+            margin: 10px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .results.show p {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Delay for each paragraph */
+        .results.show p:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+
+        .results.show p:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        .results.show p:nth-child(3) {
+            transition-delay: 0.3s;
+        }
+
+        .results.show p:nth-child(4) {
+            transition-delay: 0.4s;
+        }
+
+        .results.show p:nth-child(5) {
+            transition-delay: 0.5s;
+        }
+
+        .results.show p:nth-child(6) {
+            transition-delay: 0.6s;
+        }
+
+        .results.show p:nth-child(7) {
+            transition-delay: 0.7s;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
         .container {
-            max-width: 700px;
-            margin: 50px auto;
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         h1 {
             text-align: center;
-            color: #333;
+            color: #007bff;
+            font-weight: 700;
+            margin-bottom: 30px;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         label {
-            display: block;
-            font-size: 1.1em;
+            font-weight: 500;
             color: #555;
-            margin-bottom: 5px;
         }
 
-        input[type="number"], select {
-            width: calc(100% - 100px);
-            padding: 10px;
-            font-size: 1em;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-            display: inline-block;
-        }
-
+        input[type="number"],
         select {
-            width: 80px;
-            margin-left: 10px;
-            display: inline-block;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="number"]:focus,
+        select:focus {
+            border-color: #007bff;
+            outline: none;
         }
 
         button {
             width: 100%;
-            padding: 10px;
-            font-size: 1.1em;
-            color: white;
-            background: #007BFF;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            background: #007bff;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
+            color: white;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: background 0.3s ease;
         }
 
         button:hover {
@@ -70,86 +249,834 @@
         }
 
         .results {
-            margin-top: 20px;
+            margin-top: 30px;
             background: #e9f7ef;
-            padding: 15px;
+            padding: 20px;
             border-left: 5px solid #28a745;
-            border-radius: 5px;
-            font-size: 1.1em;
+            border-radius: 8px;
+            font-size: 16px;
             color: #155724;
+            display: none;
         }
 
-        .error {
-            color: #d9534f;
-            font-size: 0.9em;
-            margin-top: 5px;
+        .results p {
+            margin: 10px 0;
+        }
+
+        .results strong {
+            color: #007bff;
+        }
+
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s ease;
+        }
+
+        .dark-mode-toggle:hover {
+            background: #0056b3;
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: linear-gradient(135deg, #1e1e2f, #2d2d44);
+            color: #f5f5f5;
+        }
+
+        .dark-mode .container {
+            background: #2d2d44;
+            color: #f5f5f5;
+        }
+
+        .dark-mode h1 {
+            color: #4dabf7;
+        }
+
+        .dark-mode input[type="number"],
+        .dark-mode select {
+            background: #3b3b5a;
+            border-color: #4d4d6b;
+            color: #f5f5f5;
+        }
+
+        .dark-mode .results {
+            background: #3b3b5a;
+            border-left-color: #4dabf7;
+            color: #f5f5f5;
+        }
+
+        .dark-mode button {
+            background: #4dabf7;
+        }
+
+        .dark-mode button:hover {
+            background: #3b8fd9;
         }
     </style>
 </head>
+
 <body>
+    <!-- Dark Mode Toggle -->
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+        <i class="fas fa-moon"></i>
+    </button>
+
     <div class="container">
-        <h1>Satellite Parameters Calculator</h1>
+        <h1>Geostationary Satellite Calculator</h1>																			<!--MOD-->
         <form id="parametersForm">
+            <!-- Satellite Longitude Selection -->
             <div class="form-group">
-                <label for="sat_longitude">Satellite Longitude (ϕ<sub>SS</sub>) in degrees:</label>
-                <input type="number" id="sat_longitude" placeholder="Enter the satellite longitude">
-                <select id="satLongitudeDirection">
-                    <option value="W">W</option>
-                    <option value="E">E</option>
+                <label for="satelliteSelection">Enter Satellite Longitude:</label>
+                <select id="satelliteSelection" class="form-control" onchange="toggleSatelliteInput()">
+                    <option value="nilesat">Nilesat 201 7°West</option>
+                    <option value="nilesat">Nilesat 301 7°West</option>
+                    <option value="other">Enter Custom Satellite Longitude</option>														<!--MOD-->
                 </select>
+                <div id="satelliteLongitudeInput" style="display: none;" class="mt-3">
+                    <label for="sat_longitude">Satellite Longitude (ϕ<sub>SS</sub>) in degrees:</label>
+                    <div class="d-flex gap-2">
+                        <input type="number" id="sat_longitude" class="form-control"
+                            placeholder="Enter the satellite longitude">
+                        <select id="satLongitudeDirection" class="form-control">
+                            <option value="E">East</option>																				<!--MOD-->
+                            <option value="W">West</option>																				<!--MOD-->
+                        </select>
+                    </div>
+                </div>
             </div>
+
+            <!-- Country and City Selection -->
             <div class="form-group">
-                <label for="longitude">Earth Station Longitude (ϕ<sub>E</sub>) in degrees:</label>
-                <input type="number" id="longitude" placeholder="Enter the longitude">
-                <select id="longitudeDirection">
-                    <option value="W">W</option>
-                    <option value="E">E</option>
+                <label for="locationSelection">Earth Station Location:</label>
+                <select id="locationSelection" class="form-control" onchange="toggleLocationInput()">
+                    <option value="menu" selected>Select Country and City</option>
+                    <option value="manual">Manually Enter Longitude and Latitude</option>												<!--MOD-->
                 </select>
+
+                <div id="menuLocationInput" style="display: block;" class="mt-3">
+                    <label for="country">Select Country:</label>
+                    <select id="country" class="form-control" onchange="updateCityOptions()">
+                        <option value="">-- Select Country --</option>
+                        <option value="egypt">Egypt</option>
+                        <option value="saudi_arabia">Saudi Arabia</option>
+                        <option value="morocco">Morocco</option>
+                        <option value="united_arab_emirates">United Arab Emirates</option>
+                        <option value="jordan">Jordan</option>
+                        <option value="tunisia">Tunisia</option>
+                        <option value="algeria">Algeria</option>
+                        <option value="mauritania">Mauritania</option>
+                        <option value="lebanon">Lebanon</option>
+                        <option value="iraq">Iraq</option>
+                        <option value="palestine">Palestine</option>
+                        <option value="syria">Syria</option>
+                        <option value="kuwait">Kuwait</option>
+                        <option value="bahrain">Bahrain</option>
+                        <option value="oman">Oman</option>
+                        <option value="libya">Libya</option>
+                        <option value="sudan">Sudan</option>
+						<option value="djibouti">Djibouti</option>
+                        <option value="turkey">Turkey</option>
+                        <option value="yemen">Yemen</option>
+                        <option value="southern_europe">Southern Europe</option>
+                        <option value="qatar">Qatar</option>
+						<option value="Ethiopia">Ethiopia</option>																<!--added-->
+						<option value="Eritrea">Eritrea</option>																<!--added-->
+						<option value="Tanzania">Tanzania</option>																<!--added-->
+						<option value="Burundi">Burundi</option>																<!--added-->
+						<option value="South_Sudan">South Sudan</option>														<!--added-->
+						<option value="Uganda">Uganda</option>																	<!--added-->
+						<option value="Rwanda">Rwanda</option>																	<!--added-->
+						<option value="Somalia">Somalia</option>																<!--added-->
+						<option value="Kenya">Kenya</option>																	<!--added-->
+						<option value="South_Africa">South Africa</option>														<!--added-->
+						<option value="Botswana">Botswana</option>																<!--added-->
+						<option value="Zimbabwe">Zimbabwe</option>																<!--added-->
+						<option value="Malawi">Malawi</option>																	<!--added-->
+						<option value="Angola">Angola</option>																	<!--added-->
+						<option value="Zambia">Zambia</option>																	<!--added-->
+						
+					</select>
+
+                    <label for="city" class="mt-3">Select City:</label>
+                    <select id="city" class="form-control">
+                        <option value="">-- Select City --</option>
+                    </select>
+                </div>
+
+                <div id="manualLocationInput" style="display: none;" class="mt-3">
+                    <label for="longitude">Earth Station Longitude (ϕ<sub>E</sub>) in degrees:</label>
+                    <div class="d-flex gap-2">
+                        <input type="number" id="longitude" class="form-control" placeholder="Enter the longitude">
+                        <select id="longitudeDirection" class="form-control">
+                            <option value="E">East</option>																						<!--MOD-->
+                            <option value="W">West</option>																						<!--MOD-->
+                        </select>
+                    </div>
+
+                    <label for="latitude" class="mt-3">Earth Station Latitude (λ<sub>E</sub>) in degrees:</label>
+                    <div class="d-flex gap-2">
+                        <input type="number" id="latitude" class="form-control" placeholder="Enter the latitude">
+                        <select id="latitudeDirection" class="form-control">
+                            <option value="N">North</option>																					<!--MOD-->	
+                            <option value="S">South</option>																					<!--MOD-->
+                        </select>
+                    </div>
+                </div>
             </div>
+
             <div class="form-group">
-                <label for="latitude">Earth Station Latitude (λ<sub>E</sub>) in degrees:</label>
-                <input type="number" id="latitude" placeholder="Enter the latitude">
-                <select id="latitudeDirection">
-                    <option value="N">N</option>
-                    <option value="S">S</option>
-                </select>
+                <label for="Frequency">Satellite Transmission Frequency (f):</label>
+                <div class="d-flex gap-2">
+                    <input type="number" id="Frequency" class="form-control" placeholder="Enter the frequency">
+                    <select id="freqUnit" class="form-control">
+                        <option value="GHz">GHz</option>																						<!--MOD-->
+                        <option value="MHz">MHz</option>																						<!--MOD-->
+                    </select>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="latitude">Satellite Transmission Frequency (f</sub>):</label>
-                <input type="number" id="Frequency" placeholder="Enter the frequency">
-                <select id="freqUnit">
-                    <option value="MHz">MHz</option>
-                    <option value="Hz">Hz</option>
-                    <option value="KHz">KHz</option>
-                    <option value="GHz">GHz</option>
-                </select>
-            </div>
-            <button type="button" onclick="calculateParameters()">Calculate</button>
+            <button type="button" onclick="calculateParameters()" class="btn btn-primary">
+                <i class="fas fa-calculator"></i> Calculate
+            </button>
         </form>
-        <div id="results" class="results" style="display: none;"></div>
+        <div class="visuals-container">
+            <div class="satellite"></div>
+            <div class="earth-station"></div>
+        </div>
+
+        <div id="results" class="results"></div>
     </div>
 
+    <!-- JavaScript for Dark Mode -->
     <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const toggleButton = document.querySelector('.dark-mode-toggle');
+            if (document.body.classList.contains('dark-mode')) {
+                toggleButton.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                toggleButton.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+    </script>
+    <script>
+
+        function customRound(num) {
+            return Number.isInteger(num) ? num : parseFloat(num.toFixed(2));
+        }
+
+        function setInputs(inputs) {
+            document.getElementById("sat_longitude").value = inputs.satLongitude;
+            document.getElementById("satLongitudeDirection").value = inputs.satLongitudeDirection;
+            document.getElementById("longitude").value = inputs.earthLongitude;
+            document.getElementById("longitudeDirection").value = inputs.earthLongitudeDirection;
+            document.getElementById("latitude").value = inputs.earthLatitude;
+            document.getElementById("latitudeDirection").value = inputs.earthLatitudeDirection;
+            document.getElementById("Frequency").value = inputs.frequency;
+            document.getElementById("freqUnit").value = inputs.frequencyUnit;
+        }
+
+    </script>
+
+    <script>
+        // jim cites update
+        const cityData = {
+        egypt: [
+            { name: "Cairo", latitude: 30.0519, longitude: 31.248 },
+            { name: "Alexandria", latitude: 31.202, longitude: 29.948 },
+            { name: "Giza", latitude: 30.01, longitude: 31.19 },
+            { name: "Sharm El Sheikh", latitude: 27.51, longitude: 34.16 },
+            { name: "Luxor", latitude: 25.7, longitude: 32.65 },
+            { name: "Aswan", latitude: 24.0875, longitude: 32.8989 },
+            { name: "Port Said", latitude: 31.26, longitude: 32.29 },
+            { name: "Suez", latitude: 30.005, longitude: 32.5499 },
+            { name: "Ismailia", latitude: 30.5903, longitude: 32.26 },
+            { name: "Tanta", latitude: 30.7904, longitude: 31 },
+            { name: "Mansoura", latitude: 31.0409, longitude: 31.3785 },
+            { name: "Asyut", latitude: 27.19, longitude: 31.1799 },
+            { name: "Faiyum", latitude: 29.31, longitude: 30.84 },
+            { name: "Zagazig", latitude: 30.5833, longitude: 31.5167 },
+            { name: "Damietta", latitude: 31.4204, longitude: 31.82 },
+            { name: "Minya", latitude: 28.09, longitude: 30.75 },
+            { name: "Beni Suef", latitude: 29.0804, longitude: 31.09 },
+            { name: "Qena", latitude: 26.1505, longitude: 32.72 },
+            { name: "Sohag", latitude: 26.5504, longitude: 31.7 },
+            { name: "Mersa Matruh", latitude: 31.3504, longitude: 27.23 },
+            { name: "Arish", latitude: 31.1249, longitude: 33.8006 },
+            { name: "Banha", latitude: 30.4667, longitude: 31.1833 },
+            { name: "Esna", latitude: 25.2904, longitude: 32.5499 },
+            { name: "Girga", latitude: 26.3304, longitude: 31.88 },
+            { name: "Kafr El-sheikh", latitude: 31.109, longitude: 30.936 },
+            { name: "Kom Ombo", latitude: 24.47, longitude: 32.95 },
+            { name: "Mallawi", latitude: 27.7304, longitude: 30.84 },
+            { name: "Rosetta", latitude: 31.4604, longitude: 30.39 },
+            { name: "Samalut", latitude: 28.3004, longitude: 30.71 },
+            { name: "Sharkia", latitude: 31.0504, longitude: 31.38 },
+            { name: "Shibin Al Kawm", latitude: 30.592, longitude: 30.9 },
+            { name: "Siwah", latitude: 29.12, longitude: 25.31 },
+            { name: "Nuweiba", latitude: 29.02, longitude: 34.65 },
+            { name: "Dahab", latitude: 28.5, longitude: 34.5 },
+            { name: "Halayeb and Shalatin", latitude: 22.47, longitude: 35.52 },
+            { name: "Wahat El-Dakhla", latitude: 25.52, longitude: 29.17 },
+            { name: "Wahat El-Kharga", latitude: 24.54, longitude: 31.99 },
+            { name: "Wahat El-Farafra", latitude: 27.03, longitude: 27.58 },
+            { name: "Wahat El-Bahariya", latitude: 28.33, longitude: 29.01 },
+            { name: "El-Saloom", latitude: 31.58, longitude: 25.16 },
+            { name: "Abu-Simbel", latitude: 22.34, longitude: 31.63 },
+            { name: "El-Alameen", latitude: 30.83, longitude: 28.96 },
+            { name: "Toshka New City", latitude: 22.82, longitude: 31.48 },
+            { name: "El-Awaynat", latitude: 21.92, longitude: 24.92 },
+            { name: "Al-Tur", latitude: 28.14, longitude: 33.36 },
+            { name: "El-Asema El-Edariya", latitude: 30.03, longitude: 31.76 },
+            { name: "6th October City", latitude: 29.94, longitude: 30.93 },
+            { name: "Rafah", latitude: 31.18, longitude: 34.15 },
+            { name: "Ras El-Naqab", latitude: 29.36, longitude: 34.51 },
+            { name: "Ras Gareb", latitude: 28.22, longitude: 33.04 },
+            { name: "Sidi Barani", latitude: 31.38, longitude: 25.58 },
+            { name: "Safaga", latitude: 26.75, longitude: 33.93 },
+            { name: "Marsa Alam", latitude: 25.07, longitude: 34.9 }
+        ],
+        saudi_arabia: [
+            { name: "Riyadh", latitude: 24.6428, longitude: 46.7708 },
+            { name: "Jeddah", latitude: 21.5188, longitude: 39.2173 },
+            { name: "Mecca", latitude: 21.432, longitude: 39.8181 },
+            { name: "Medina", latitude: 24.5019, longitude: 39.5781 },
+            { name: "Dammam", latitude: 26.4301, longitude: 50.0977 },
+            { name: "Ta'if", latitude: 21.2622, longitude: 40.3823 },
+            { name: "Abha", latitude: 18.2301, longitude: 42.5001 },
+            { name: "Tabuk", latitude: 28.3838, longitude: 36.555 },
+            { name: "Jubail", latitude: 27.0112, longitude: 49.6580 },
+            { name: "Hail", latitude: 27.5114, longitude: 41.7208 },
+            { name: "Najran", latitude: 17.5656, longitude: 44.2289 },
+            { name: "Al Khobar", latitude: 26.2172, longitude: 50.1971 },
+            { name: "Yanbu", latitude: 24.0895, longitude: 38.0617 },
+            { name: "Buraidah", latitude: 26.3664, longitude: 43.9628 },
+            { name: "Khamis Mushait", latitude: 18.3000, longitude: 42.7333 },
+            { name: "Al Qatif", latitude: 26.5667, longitude: 50.0167 },
+            { name: "Dhahran", latitude: 26.2885, longitude: 50.1133 },
+            { name: "Al Bahah", latitude: 20.0129, longitude: 41.4677 },
+            { name: "Arar", latitude: 30.99, longitude: 41.0207 },
+            { name: "Sakaka", latitude: 29.9697, longitude: 40.2064 },
+            { name: "Jizan", latitude: 16.9066, longitude: 42.5566 }
+        ],
+        morocco: [
+            { name: "Casablanca", latitude: 33.6019, longitude: -7.61831 },
+            { name: "Rabat", latitude: 34.0253, longitude: -6.83641 },
+            { name: "Marrakech", latitude: 31.65, longitude: -7.96 },
+            { name: "Fez", latitude: 34.0565, longitude: -5.00232 },
+            { name: "Tangier", latitude: 35.7473, longitude: -5.8327 },
+            { name: "Agadir", latitude: 30.44, longitude: -9.62004 },
+            { name: "Oujda", latitude: 34.6814, longitude: -1.9086 },
+            { name: "Meknes", latitude: 33.9004, longitude: -5.55998 },
+            { name: "Kenitra", latitude: 34.2704, longitude: -6.58 },
+            { name: "Tetouan", latitude: 35.5711, longitude: -5.3724 },
+            { name: "Safi", latitude: 32.32, longitude: -9.23999 },
+            { name: "El Jadida", latitude: 33.2316, longitude: -8.5007 },
+            { name: "Beni Mellal", latitude: 32.3373, longitude: -6.3498 },
+            { name: "Nador", latitude: 35.1688, longitude: -2.9336 },
+            { name: "Khouribga", latitude: 32.8833, longitude: -6.9167 },
+            { name: "Taza", latitude: 34.2167, longitude: -4.0167 },
+            { name: "Larache", latitude: 35.1833, longitude: -6.1500 },
+            { name: "Khemisset", latitude: 33.8167, longitude: -6.0667 },
+            { name: "Guelmim", latitude: 28.9833, longitude: -10.0667 },
+            { name: "Taroudant", latitude: 30.4667, longitude: -8.8667 },
+            { name: "Errachidia", latitude: 31.9404, longitude: -4.44997 },
+            { name: "Laayoune", latitude: 27.15, longitude: -13.2 }
+        ],
+        united_arab_emirates: [
+            { name: "Abu Dhabi", latitude: 24.4667, longitude: 54.3666 },
+            { name: "Dubai", latitude: 25.2319, longitude: 55.278 },
+            { name: "Sharjah", latitude: 25.3714, longitude: 55.4065 },
+            { name: "Ajman", latitude: 25.4052, longitude: 55.5136 },
+            { name: "Al Ain", latitude: 24.2305, longitude: 55.74 },
+            { name: "Fujairah", latitude: 25.1288, longitude: 56.3264 },
+            { name: "Ras Al Khaimah", latitude: 25.7915, longitude: 55.9428 },
+            { name: "Umm Al Quwain", latitude: 25.5653, longitude: 55.5533 },
+            { name: "Khor Fakkan", latitude: 25.3314, longitude: 56.3420 },
+            { name: "Dibba Al-Fujairah", latitude: 25.5925, longitude: 56.2617 },
+            { name: "Ruwais", latitude: 24.1167, longitude: 52.7333 },
+            { name: "Madinat Zayed", latitude: 23.6525, longitude: 53.6556 },
+            { name: "Al Dhaid", latitude: 25.2833, longitude: 55.8833 },
+            { name: "Hatta", latitude: 24.8000, longitude: 56.1167 },
+            { name: "Ar-Rams", latitude: 25.8833, longitude: 56.0167 },
+            { name: "Al Mirfa", latitude: 24.0833, longitude: 53.7667 },
+            { name: "Liwa Oasis", latitude: 23.1333, longitude: 53.7833 },
+            { name: "Al Sila", latitude: 24.0833, longitude: 52.6000 },
+            { name: "Dalma Island", latitude: 24.5167, longitude: 52.3167 },
+            { name: "Ghayathi", latitude: 23.8333, longitude: 52.8333 }
+        ],
+        jordan: [
+            { name: "Amman", latitude: 31.952, longitude: 35.9314 },
+            { name: "Aqaba", latitude: 29.5357, longitude: 35.0078 },
+            { name: "Irbid", latitude: 32.5553, longitude: 35.8500 },
+            { name: "Zarqa", latitude: 32.0783, longitude: 36.0930 },
+            { name: "Madaba", latitude: 31.7167, longitude: 35.8000 },
+            { name: "Karak", latitude: 31.1851, longitude: 35.7048 },
+            { name: "Salt", latitude: 32.0392, longitude: 35.7272 },
+            { name: "Mafraq", latitude: 32.3417, longitude: 36.2020 },
+            { name: "Jerash", latitude: 32.2747, longitude: 35.8961 },
+            { name: "Ma'an", latitude: 30.1920, longitude: 35.7360 },
+            { name: "Tafilah", latitude: 30.8333, longitude: 35.6000 },
+            { name: "Ajloun", latitude: 32.3333, longitude: 35.7500 },
+            { name: "Ramtha", latitude: 32.5583, longitude: 36.0083 },
+            { name: "Wadi Musa", latitude: 30.3167, longitude: 35.4833 },
+            { name: "Aydoun", latitude: 32.5050, longitude: 35.8583 },
+            { name: "Husn", latitude: 32.5167, longitude: 35.8333 },
+            { name: "Shobak", latitude: 30.5333, longitude: 35.5667 },
+            { name: "Fuheis", latitude: 32.0167, longitude: 35.7667 },
+            { name: "Um Qais", latitude: 32.6500, longitude: 35.6833 },
+            { name: "Al Jizah", latitude: 31.7000, longitude: 35.9500 }
+        ],
+        tunisia: [
+            { name: "Tunis", latitude: 36.8028, longitude: 10.1797 },
+            { name: "Sfax", latitude: 34.75, longitude: 10.72 },
+            { name: "Sousse", latitude: 35.8256, longitude: 10.6367 },
+            { name: "Kairouan", latitude: 35.6780, longitude: 9.8737 },
+            { name: "Gabes", latitude: 33.8815, longitude: 10.0982 },
+            { name: "Bizerte", latitude: 37.2744, longitude: 9.8739 },
+            { name: "Monastir", latitude: 35.7833, longitude: 10.8833 },
+            { name: "Nabeul", latitude: 36.4561, longitude: 10.7376 },
+            { name: "Beja", latitude: 36.7333, longitude: 9.1833 },
+            { name: "Kasserine", latitude: 35.1667, longitude: 8.8333 },
+            { name: "Gafsa", latitude: 34.4204, longitude: 8.78002 },
+            { name: "Tozeur", latitude: 33.9167, longitude: 8.1333 },
+            { name: "Mahdia", latitude: 35.5000, longitude: 11.0667 },
+            { name: "Medenine", latitude: 33.3500, longitude: 10.5000 },
+            { name: "Tataouine", latitude: 32.9333, longitude: 10.4500 },
+            { name: "El Kef", latitude: 36.1833, longitude: 8.7167 },
+            { name: "Hammamet", latitude: 36.4000, longitude: 10.6167 },
+            { name: "Zarzis", latitude: 33.5000, longitude: 11.1167 },
+            { name: "Douz", latitude: 33.4667, longitude: 9.0167 },
+            { name: "Ben Arous", latitude: 36.7500, longitude: 10.2167 }
+        ],
+        algeria: [
+            { name: "Algiers", latitude: 36.765, longitude: 3.04861 },
+            { name: "Oran", latitude: 35.6970, longitude: -0.6336 },
+            { name: "Constantine", latitude: 36.36, longitude: 6.59995 },
+            { name: "Annaba", latitude: 36.8756, longitude: 7.7634 },
+            { name: "Tlemcen", latitude: 34.8828, longitude: -1.3167 },
+            { name: "Blida", latitude: 36.4700, longitude: 2.8300 },
+            { name: "Batna", latitude: 35.5559, longitude: 6.1741 },
+            { name: "Setif", latitude: 36.1911, longitude: 5.4137 },
+            { name: "Sidi Bel Abbes", latitude: 35.1999, longitude: -0.6352 },
+            { name: "Biskra", latitude: 34.8500, longitude: 5.7333 },
+            { name: "Tiaret", latitude: 35.3667, longitude: 1.3167 },
+            { name: "Chlef", latitude: 36.1667, longitude: 1.3333 },
+            { name: "Bejaia", latitude: 36.7500, longitude: 5.0667 },
+            { name: "Mostaganem", latitude: 35.9333, longitude: 0.0833 },
+            { name: "Tizi Ouzou", latitude: 36.7167, longitude: 4.0500 },
+            { name: "Ouargla", latitude: 31.9500, longitude: 5.3167 },
+            { name: "Ghardaia", latitude: 32.4833, longitude: 3.6667 },
+            { name: "Laghouat", latitude: 33.8000, longitude: 2.8833 },
+            { name: "El Oued", latitude: 33.3667, longitude: 6.8667 },
+            { name: "Skikda", latitude: 36.8667, longitude: 6.9000 }
+        ],
+        lebanon: [
+            { name: "Beirut", latitude: 33.8739, longitude: 35.5078 },
+            { name: "Tripoli", latitude: 34.422, longitude: 35.868 },
+            { name: "Sidon", latitude: 33.5571, longitude: 35.3755 },
+            { name: "Tyre", latitude: 33.2705, longitude: 35.2038 },
+            { name: "Byblos", latitude: 34.1233, longitude: 35.6511 },
+            { name: "Zahle", latitude: 33.8497, longitude: 35.9042 },
+            { name: "Baalbek", latitude: 34.0058, longitude: 36.2181 },
+            { name: "Jounieh", latitude: 33.9808, longitude: 35.6178 },
+            { name: "Nabatieh", latitude: 33.3833, longitude: 35.4500 },
+            { name: "Batroun", latitude: 34.2500, longitude: 35.6500 },
+            { name: "Aley", latitude: 33.8000, longitude: 35.6000 },
+            { name: "Bint Jbeil", latitude: 33.1167, longitude: 35.4333 },
+            { name: "Hermel", latitude: 34.4000, longitude: 36.3833 },
+            { name: "Jezzine", latitude: 33.5333, longitude: 35.5833 },
+            { name: "Zgharta", latitude: 34.4000, longitude: 35.9000 },
+            { name: "Marjayoun", latitude: 33.3667, longitude: 35.5833 },
+            { name: "Rachaya", latitude: 33.5000, longitude: 35.8333 },
+            { name: "Miniyeh-Danniyeh", latitude: 34.4500, longitude: 35.9333 },
+            { name: "Akkar", latitude: 34.5333, longitude: 36.0333 },
+            { name: "Baabda", latitude: 33.8333, longitude: 35.5333 }
+        ],
+        iraq: [
+            { name: "Baghdad", latitude: 33.3406, longitude: 44.3919 },
+            { name: "Basra", latitude: 30.5155, longitude: 47.8116 },
+            { name: "Mosul", latitude: 36.3469, longitude: 43.1431 },
+            { name: "Erbil", latitude: 36.181, longitude: 44.0067 },
+            { name: "Najaf", latitude: 32.0297, longitude: 44.3356 },
+            { name: "Karbala", latitude: 32.6167, longitude: 44.0333 },
+            { name: "Sulaymaniyah", latitude: 35.5571, longitude: 45.4356 },
+            { name: "Kirkuk", latitude: 35.4722, longitude: 44.3923 },
+            { name: "Nasiriyah", latitude: 31.0500, longitude: 46.2667 },
+            { name: "Ramadi", latitude: 33.42, longitude: 43.3 },
+            { name: "Samarra", latitude: 34.2000, longitude: 43.8833 },
+            { name: "Fallujah", latitude: 33.3500, longitude: 43.7833 },
+            { name: "Hilla", latitude: 32.4833, longitude: 44.4333 },
+            { name: "Kut", latitude: 32.5167, longitude: 45.8167 },
+            { name: "Diwaniyah", latitude: 31.9833, longitude: 44.9333 },
+            { name: "Amarah", latitude: 31.8333, longitude: 47.1500 },
+            { name: "Duhok", latitude: 36.8667, longitude: 42.9833 },
+            { name: "Zakho", latitude: 37.1500, longitude: 42.6833 },
+            { name: "Tikrit", latitude: 34.6000, longitude: 43.6833 },
+            { name: "Kufa", latitude: 32.0333, longitude: 44.4000 }
+        ],
+        palestine: [
+            { name: "Jerusalem", latitude: 31.78, longitude: 35.22 },
+            { name: "Gaza", latitude: 31.5, longitude: 34.47 },
+            { name: "Ramallah", latitude: 31.8997, longitude: 35.2081 },
+            { name: "Hebron", latitude: 31.5326, longitude: 35.0998 },
+            { name: "Nablus", latitude: 32.2211, longitude: 35.2544 },
+            { name: "Bethlehem", latitude: 31.7054, longitude: 35.2027 },
+            { name: "Jenin", latitude: 32.4617, longitude: 35.3022 },
+            { name: "Tulkarm", latitude: 32.3104, longitude: 35.0286 },
+            { name: "Qalqilya", latitude: 32.2000, longitude: 34.9833 },
+            { name: "Jericho", latitude: 31.8667, longitude: 35.4500 },
+            { name: "Rafah", latitude: 31.2833, longitude: 34.2500 },
+            { name: "Khan Yunis", latitude: 31.3500, longitude: 34.3000 },
+            { name: "Tubas", latitude: 32.3167, longitude: 35.3667 },
+            { name: "Salfit", latitude: 32.0833, longitude: 35.1833 },
+            { name: "Dura", latitude: 31.5000, longitude: 35.0333 },
+            { name: "Beit Jala", latitude: 31.7167, longitude: 35.1833 },
+            { name: "Beit Sahour", latitude: 31.7000, longitude: 35.2167 },
+            { name: "Anabta", latitude: 32.3167, longitude: 35.1167 },
+            { name: "Yatta", latitude: 31.4500, longitude: 35.0833 },
+            { name: "Al-Bireh", latitude: 31.9000, longitude: 35.2167 }
+        ],
+        syria: [
+            { name: "Damascus", latitude: 33.502, longitude: 36.298 },
+            { name: "Aleppo", latitude: 36.2012, longitude: 37.1343 },
+            { name: "Homs", latitude: 34.7319, longitude: 36.7181 },
+            { name: "Latakia", latitude: 35.54, longitude: 35.78 },
+            { name: "Hama", latitude: 35.1503, longitude: 36.73 },
+            { name: "Deir ez-Zor", latitude: 35.3304, longitude: 40.13 },
+            { name: "Raqqa", latitude: 35.9500, longitude: 39.0167 },
+            { name: "Idlib", latitude: 35.9333, longitude: 36.6333 },
+            { name: "Daraa", latitude: 32.6167, longitude: 36.1000 },
+            { name: "Tartus", latitude: 34.8833, longitude: 35.8833 },
+            { name: "Al-Hasakah", latitude: 36.5000, longitude: 40.9000 },
+            { name: "Qamishli", latitude: 37.0500, longitude: 41.2167 },
+            { name: "Manbij", latitude: 36.5333, longitude: 37.9500 },
+            { name: "Al-Bab", latitude: 36.3667, longitude: 37.5167 },
+            { name: "Jableh", latitude: 35.3667, longitude: 35.9333 },
+            { name: "Maarat al-Numan", latitude: 35.6333, longitude: 36.6667 },
+            { name: "Al-Qusayr", latitude: 34.5167, longitude: 36.5833 },
+            { name: "Al-Malikiyah", latitude: 37.1667, longitude: 42.1333 },
+            { name: "Al-Tall", latitude: 33.6000, longitude: 36.3000 },
+            { name: "Afrin", latitude: 36.5167, longitude: 36.8667 }
+        ],
+        kuwait: [
+            { name: "Kuwait City", latitude: 29.3717, longitude: 47.9764 },
+            { name: "Hawally", latitude: 29.3342, longitude: 47.9723 },
+            { name: "Jahra", latitude: 29.3375, longitude: 47.6581 },
+            { name: "Farwaniya", latitude: 29.2775, longitude: 47.9586 },
+            { name: "Ahmadi", latitude: 29.0769, longitude: 48.0839 },
+            { name: "Salmiya", latitude: 29.3333, longitude: 48.0833 },
+            { name: "Sabah Al-Salem", latitude: 29.2500, longitude: 48.0000 },
+            { name: "Al-Jahra", latitude: 29.3375, longitude: 47.6581 },
+            { name: "Al-Farwaniyah", latitude: 29.2775, longitude: 47.9586 },
+            { name: "Mubarak Al-Kabeer", latitude: 29.2500, longitude: 48.0000 },
+            { name: "Al-Salmiya", latitude: 29.3333, longitude: 48.0833 },
+            { name: "Al-Mangaf", latitude: 29.1000, longitude: 48.1333 },
+            { name: "Al-Fahaheel", latitude: 29.0833, longitude: 48.1333 },
+            { name: "Al-Wafra", latitude: 28.6333, longitude: 48.0000 },
+            { name: "Al-Ahmadi", latitude: 29.0769, longitude: 48.0839 },
+            { name: "Al-Ardiya", latitude: 29.3167, longitude: 47.9833 },
+            { name: "Al-Qurain", latitude: 29.2667, longitude: 48.0000 },
+            { name: "Al-Siddeeq", latitude: 29.3167, longitude: 47.9833 },
+            { name: "Al-Riqqa", latitude: 29.3167, longitude: 47.9833 },
+            { name: "Al-Sulaibiya", latitude: 29.2667, longitude: 47.9333 }
+        ],
+        bahrain: [
+            { name: "Manama", latitude: 26.2361, longitude: 50.5831 },
+            { name: "Muharraq", latitude: 26.2761, longitude: 50.6175 },
+            { name: "Riffa", latitude: 26.1299, longitude: 50.5550 },
+            { name: "Hamad Town", latitude: 26.1126, longitude: 50.5129 },
+            { name: "Isa Town", latitude: 26.1736, longitude: 50.5478 },
+            { name: "Sitra", latitude: 26.1167, longitude: 50.6500 },
+            { name: "Budaiya", latitude: 26.2000, longitude: 50.4500 },
+            { name: "Jidhafs", latitude: 26.2167, longitude: 50.5333 },
+            { name: "Al-Malikiyah", latitude: 26.2333, longitude: 50.5000 },
+            { name: "Adliya", latitude: 26.2167, longitude: 50.5833 },
+            { name: "Zallaq", latitude: 26.1167, longitude: 50.5000 },
+            { name: "Sanabis", latitude: 26.2167, longitude: 50.5833 },
+            { name: "A'ali", latitude: 26.1667, longitude: 50.5333 },
+            { name: "Dar Kulaib", latitude: 26.1667, longitude: 50.5333 },
+            { name: "Bani Jamra", latitude: 26.2000, longitude: 50.4500 },
+            { name: "Al-Dair", latitude: 26.1667, longitude: 50.5333 },
+            { name: "Al-Markh", latitude: 26.1667, longitude: 50.5333 },
+            { name: "Al-Hidd", latitude: 26.2500, longitude: 50.6500 },
+            { name: "Al-Jasra", latitude: 26.1667, longitude: 50.5333 },
+            { name: "Al-Qadam", latitude: 26.1667, longitude: 50.5333 }
+        ],
+        oman: [
+            { name: "Muscat", latitude: 23.36, longitude: 58.58 },
+            { name: "Salalah", latitude: 17.0120, longitude: 54.0924 },
+            { name: "Sohar", latitude: 24.3640, longitude: 56.7466 },
+            { name: "Nizwa", latitude: 22.9333, longitude: 57.5333 },
+            { name: "Sur", latitude: 22.5667, longitude: 59.5289 },
+            { name: "Ibri", latitude: 23.2254, longitude: 56.5153 },
+            { name: "Rustaq", latitude: 23.3833, longitude: 57.4333 },
+            { name: "Barka", latitude: 23.6833, longitude: 57.8833 },
+            { name: "Al-Buraimi", latitude: 24.2500, longitude: 55.7500 },
+            { name: "Khasab", latitude: 26.2000, longitude: 56.2500 },
+            { name: "Al-Suwaiq", latitude: 23.8500, longitude: 57.4333 },
+            { name: "Bahla", latitude: 22.9667, longitude: 57.3000 },
+            { name: "Shinas", latitude: 24.7333, longitude: 56.4667 },
+            { name: "Al-Khaburah", latitude: 23.9667, longitude: 57.1000 },
+            { name: "Al-Mudhaibi", latitude: 22.5667, longitude: 58.1167 },
+            { name: "Ibra", latitude: 22.6833, longitude: 58.5333 },
+            { name: "Al-Qabil", latitude: 22.5667, longitude: 58.1167 },
+            { name: "Al-Hamra", latitude: 23.1167, longitude: 57.3000 },
+            { name: "Adam", latitude: 22.3833, longitude: 57.5333 },
+            { name: "Yanqul", latitude: 23.5833, longitude: 56.5333 }
+        ],
+        sudan: [
+            { name: "Khartoum", latitude: 15.59, longitude: 32.5322 },
+            { name: "Omdurman", latitude: 15.6500, longitude: 32.4833 },
+            { name: "Port Sudan", latitude: 19.6158, longitude: 37.2164 },
+            { name: "Kassala", latitude: 15.46, longitude: 36.39 },
+            { name: "Wad Madani", latitude: 14.4000, longitude: 33.5167 },
+            { name: "El Obeid", latitude: 13.1833, longitude: 30.2167 },
+            { name: "Nyala", latitude: 12.0500, longitude: 24.8833 },
+            { name: "Gedaref", latitude: 14.0333, longitude: 35.3833 },
+            { name: "Kosti", latitude: 13.17, longitude: 32.66 },
+            { name: "Al-Fashir", latitude: 13.6333, longitude: 25.3500 },
+            { name: "Rabak", latitude: 13.1667, longitude: 32.6667 },
+            { name: "Singa", latitude: 13.1667, longitude: 33.9333 },
+            { name: "Dongola", latitude: 19.1667, longitude: 30.4833 },
+            { name: "Atbara", latitude: 17.7167, longitude: 33.9833 },
+            { name: "Al-Qadarif", latitude: 14.0333, longitude: 35.3833 },
+            { name: "Al-Damazin", latitude: 11.7667, longitude: 34.3500 },
+            { name: "Al-Managil", latitude: 14.2500, longitude: 32.9833 },
+            { name: "Al-Hasaheisa", latitude: 14.7333, longitude: 33.3000 },
+            { name: "Al-Junaynah", latitude: 13.4833, longitude: 22.4500 },
+            { name: "Al-Qadarif", latitude: 14.0333, longitude: 35.3833 },
+            { name: "En Nahud", latitude: 12.6904, longitude: 28.42 },
+            { name: "Juba", latitude: 4.82998, longitude: 31.58 },
+            { name: "Malakal", latitude: 9.5369, longitude: 31.656 }
+        ],
+
+        mauritania: [
+            { name: "Nouakchott", latitude: 18.0864, longitude: -15.9753 }
+        ],
+        djibouti: [
+            { name: "Djibouti", latitude: 11.595, longitude: 43.148 }
+        ],
+        libya: [
+            { name: "Tripoli", latitude: 32.8925, longitude: 13.18 },
+            { name: "Benghazi", latitude: 32.1187, longitude: 20.0648 },
+            { name: "Misrata", latitude: 32.3783, longitude: 15.0906 },
+            { name: "Zawiya", latitude: 32.7500, longitude: 12.7167 },
+            { name: "Sabha", latitude: 27.0333, longitude: 14.4333 },
+            { name: "Tobruk", latitude: 32.08, longitude: 23.96 },
+            { name: "Al-Khums", latitude: 32.6500, longitude: 14.2667 },
+            { name: "Zuwara", latitude: 32.9333, longitude: 12.0833 },
+            { name: "Ajdabiya", latitude: 30.7500, longitude: 20.2167 },
+            { name: "Gharyan", latitude: 32.1667, longitude: 13.0167 },
+            { name: "Al-Marj", latitude: 32.5000, longitude: 20.8333 },
+            { name: "Derna", latitude: 32.7648, longitude: 22.6391 },
+            { name: "Sirte", latitude: 31.2000, longitude: 16.5833 },
+            { name: "Al-Bayda", latitude: 32.7667, longitude: 21.7500 },
+            { name: "Tarhuna", latitude: 32.4333, longitude: 13.6333 },
+            { name: "Al-Qubbah", latitude: 32.7667, longitude: 22.2500 },
+            { name: "Bani Walid", latitude: 31.7667, longitude: 13.9833 },
+            { name: "Al-Jufra", latitude: 29.1667, longitude: 16.0000 },
+            { name: "Ghat", latitude: 24.9667, longitude: 10.1833 },
+            { name: "Murzuq", latitude: 25.9167, longitude: 13.9167 }
+        ],
+        qatar: [
+            { name: "Doha", latitude: 25.2866, longitude: 51.533 }
+        ],
+        yemen: [
+            { name: "Sana'a", latitude: 15.3567, longitude: 44.2046 },
+            { name: "Aden", latitude: 12.7797, longitude: 45.0095 },
+            { name: "Taiz", latitude: 13.5789, longitude: 44.0219 },
+            { name: "Hodeidah", latitude: 14.8022, longitude: 42.9511 },
+            { name: "Ibb", latitude: 13.9667, longitude: 44.1667 },
+            { name: "Mukalla", latitude: 14.5333, longitude: 49.1333 },
+            { name: "Dhamar", latitude: 14.5575, longitude: 44.3875 },
+            { name: "Al-Mukalla", latitude: 14.5333, longitude: 49.1333 },
+            { name: "Sayyan", latitude: 15.1667, longitude: 44.3167 },
+            { name: "Zinjibar", latitude: 13.1333, longitude: 45.3667 },
+            { name: "Al-Hudaydah", latitude: 14.8022, longitude: 42.9511 },
+            { name: "Al-Bayda", latitude: 13.9667, longitude: 45.5667 },
+            { name: "Amran", latitude: 15.6667, longitude: 43.9333 },
+            { name: "Hajjah", latitude: 15.7000, longitude: 43.6000 },
+            { name: "Sa'dah", latitude: 16.9333, longitude: 43.7500 },
+            { name: "Al-Mahwit", latitude: 15.4667, longitude: 43.5333 },
+            { name: "Rada", latitude: 14.4167, longitude: 44.8333 },
+            { name: "Ataq", latitude: 14.5500, longitude: 46.8333 },
+            { name: "Yarim", latitude: 14.3000, longitude: 44.3833 },
+            { name: "Ash-Shihr", latitude: 14.7667, longitude: 49.5833 }
+        ],
+        turkey: [
+            { name: "Istanbul", latitude: 41.0082, longitude: 28.9784 },
+            { name: "Ankara", latitude: 39.9334, longitude: 32.8597 },
+            { name: "Izmir", latitude: 38.4192, longitude: 27.1287 },
+            { name: "Antalya", latitude: 36.8969, longitude: 30.7133 },
+            { name: "Adana", latitude: 37.0000, longitude: 35.3213 },
+            { name: "Bursa", latitude: 40.1833, longitude: 29.0667 },
+            { name: "Gaziantep", latitude: 37.0667, longitude: 37.3833 },
+            { name: "Konya", latitude: 37.8667, longitude: 32.4833 },
+            { name: "Mersin", latitude: 36.8000, longitude: 34.6333 },
+            { name: "Kayseri", latitude: 38.7333, longitude: 35.4833 },
+            { name: "Diyarbakir", latitude: 37.9167, longitude: 40.2167 },
+            { name: "Samsun", latitude: 41.2833, longitude: 36.3333 },
+            { name: "Denizli", latitude: 37.7667, longitude: 29.0833 },
+            { name: "Sanliurfa", latitude: 37.1500, longitude: 38.8000 },
+            { name: "Malatya", latitude: 38.3500, longitude: 38.3000 },
+            { name: "Kahramanmaras", latitude: 37.5833, longitude: 36.9333 },
+            { name: "Erzurum", latitude: 39.9000, longitude: 41.2667 },
+            { name: "Van", latitude: 38.5000, longitude: 43.3833 },
+            { name: "Batman", latitude: 37.8833, longitude: 41.1333 },
+            { name: "Trabzon", latitude: 41.0000, longitude: 39.7333 }
+        ],
+        southern_europe: [
+            { name: "Athens, Greece", latitude: 37.9838, longitude: 23.7275 },
+            { name: "Nicosia, Cyprus", latitude: 35.1856, longitude: 33.3823 },
+            { name: "Valletta, Malta", latitude: 35.8989, longitude: 14.5146 },
+            { name: "Palermo, Italy", latitude: 38.1157, longitude: 13.3615 },
+            { name: "Catania, Italy", latitude: 37.5027, longitude: 15.0873 },
+            { name: "Heraklion, Greece", latitude: 35.3387, longitude: 25.1442 },
+            { name: "Thessaloniki, Greece", latitude: 40.6401, longitude: 22.9444 },
+            { name: "Limassol, Cyprus", latitude: 34.7071, longitude: 33.0226 },
+            { name: "Larnaca, Cyprus", latitude: 34.9167, longitude: 33.6333 },
+            { name: "Messina, Italy", latitude: 38.1936, longitude: 15.5540 },
+            { name: "Rhodes, Greece", latitude: 36.4347, longitude: 28.2175 },
+            { name: "Chania, Greece", latitude: 35.5122, longitude: 24.0156 },
+            { name: "Patras, Greece", latitude: 38.2464, longitude: 21.7350 },
+            { name: "Syracuse, Italy", latitude: 37.0755, longitude: 15.2866 },
+            { name: "Taormina, Italy", latitude: 37.8530, longitude: 15.2880 },
+            { name: "Corfu, Greece", latitude: 39.6243, longitude: 19.9217 },
+            { name: "Zakynthos, Greece", latitude: 37.7829, longitude: 20.8956 },
+            { name: "Kalamata, Greece", latitude: 37.0389, longitude: 22.1142 },
+            { name: "Agrigento, Italy", latitude: 37.3089, longitude: 13.5858 },
+            { name: "Cagliari, Italy", latitude: 39.2238, longitude: 9.1217 }
+        ],
+		Ethiopia: [
+            { name: "Addis Ababa", latitude: 9.05, longitude: 38.83 }															<!--Added>
+        ],
+		Eritrea: [
+            { name: "Asmara", latitude: 15.34, longitude: 38.93 }
+        ],
+		Tanzania: [
+            { name: "Dodoma", latitude: -6.17, longitude: 35.67 }
+        ],
+		Burundi: [
+            { name: "Gitega", latitude: -3.4, longitude: 29.93 }
+        ],
+		South_Sudan: [
+            { name: "Juba", latitude: 4.85, longitude: 31.58 },
+			{ name: "Malakal", latitude: 9.5369, longitude: 31.656 }
+        ],
+		Uganda: [
+            { name: "Kampala", latitude: 0.33, longitude: 32.58 }
+        ],
+		Rwanda: [
+            { name: "Kigali", latitude: -1.93, longitude:30.07  }
+        ],
+		Somalia: [
+			{ name: "Baidoa", latitude: 3.11998, longitude: 43.65 },
+            { name: "Mogadishu", latitude: 2.03, longitude: 45.35 }
+        ],
+		Kenya: [
+            { name: "Nairobi", latitude: -1.28, longitude: 36.83 }
+        ],
+		South_Africa: [
+            { name: "Cape Town", latitude: -33.93, longitude: 18.47 }
+        ],
+		Botswana: [
+            { name: "Gaborone", latitude: -24.75, longitude: 25.92 }
+        ],
+		Zimbabwe: [
+            { name: "Harare", latitude: -17.83, longitude: 31.05 }
+        ],
+		Malawi: [
+            { name: "Lilongwe", latitude: -13.97, longitude: 33.82 }
+        ],
+		Angola: [
+            { name: "Luanda", latitude: -8.83, longitude: 13.25 }
+        ],
+		Zambia: [
+            { name: "Lusaka", latitude: -15.47, longitude: 28.27 }
+        ]																														<!--Added>
+	};
+
+
+        function toggleSatelliteInput() {
+            const satelliteSelection = document.getElementById("satelliteSelection").value;
+            const satelliteInputDiv = document.getElementById("satelliteLongitudeInput");
+            satelliteInputDiv.style.display = satelliteSelection === "other" ? "block" : "none";
+        }
+
+        function toggleLocationInput() {
+            const locationSelection = document.getElementById("locationSelection").value;
+            document.getElementById("menuLocationInput").style.display = locationSelection === "menu" ? "block" : "none";
+            document.getElementById("manualLocationInput").style.display = locationSelection === "manual" ? "block" : "none";
+        }
+
+        function updateCityOptions() {
+            const country = document.getElementById("country").value;
+            const citySelect = document.getElementById("city");
+            citySelect.innerHTML = '<option value="">-- Select City --</option>';
+            if (cityData[country]) {
+                cityData[country].forEach(city => {
+                    const option = document.createElement("option");
+                    option.value = city.name;
+                    option.text = city.name;
+                    option.dataset.latitude = city.latitude;
+                    option.dataset.longitude = city.longitude;
+                    citySelect.add(option);
+                });
+            }
+        }
+
         function calculateParameters() {
-            const earthLon = parseFloat(document.getElementById("longitude").value);
-            const earthLat = parseFloat(document.getElementById("latitude").value);
-            const satLon = parseFloat(document.getElementById("sat_longitude").value);
-            const lonDirection = document.getElementById("longitudeDirection").value;
-            const latDirection = document.getElementById("latitudeDirection").value;
-            const satLonDirection = document.getElementById("satLongitudeDirection").value;
+            let satLon, earthLon, earthLat;
+            let adjustedSatLon, adjustedLon, adjustedLat;
+            // Satellite Longitude
+            if (document.getElementById("satelliteSelection").value == "nilesat") {
+                adjustedSatLon = -7;
+            } else {
+                satLon = parseFloat(document.getElementById("sat_longitude").value);
+                if (isNaN(satLon)) {
+                    alert("Please enter valid numbers for all parameters.");
+                    return;
+                }
+                const satLonDirection = document.getElementById("satLongitudeDirection").value;
+                adjustedSatLon = satLonDirection === "W" ? -satLon : satLon;
+            }
+            // Earth Station Longitude and Latitude
+            if (document.getElementById("locationSelection").value == "menu") {
+                const citySelect = document.getElementById("city");
+                const selectedCity = citySelect.options[citySelect.selectedIndex];
+                adjustedLon = parseFloat(selectedCity.dataset.longitude);
+                adjustedLat = parseFloat(selectedCity.dataset.latitude);
+            } else {
+                earthLon = parseFloat(document.getElementById("longitude").value);
+                earthLat = parseFloat(document.getElementById("latitude").value);
+                if (isNaN(earthLon) || isNaN(earthLat)) {
+                    alert("Please enter valid numbers for all parameters.");
+                    return;
+                }
+                const lonDirection = document.getElementById("longitudeDirection").value;
+                const latDirection = document.getElementById("latitudeDirection").value;
+                adjustedLon = lonDirection === "W" ? -earthLon : earthLon;
+                adjustedLat = latDirection === "S" ? -earthLat : earthLat;
+            }
+
             const freq = document.getElementById("Frequency").value;
             const freqUnit = document.getElementById("freqUnit").value;
 
-            if (isNaN(earthLon) || isNaN(earthLat) || isNaN(satLon)) {
-                alert("Please enter valid numbers for all parameters.");
-                return;
-            }
 
-            const adjustedLon = lonDirection === "W" ? -earthLon : earthLon;
-            const adjustedLat = latDirection === "S" ? -earthLat : earthLat;
-            const adjustedSatLon = satLonDirection === "W" ? -satLon : satLon;
 
-            
             let Brad, B;
             let brad, b;
             let Arad, A;
@@ -159,8 +1086,8 @@
             let S;
             let brad_min, b_min;
             let Brad_min, B_min;
-            let VisibilityE, VisibilityW;
-            let VisibilityE_dir, VisibilityW_dir;
+            let E_ES, W_ES, E_limit, W_limit;
+            let E_ES_dir, W_ES_dir, E_limit_dir, W_limit_dir;
             let f, lambda, FSL;
             let Rx, Ry, Rz, rx, ry, rz, Kx, Ky, Kz;
             let Fx, Fy, Fz, gx, gy, gz;
@@ -173,16 +1100,16 @@
             b = brad * (180 / Math.PI);
             Arad = Math.asin(Math.sin(Math.abs(Brad)) / Math.sin(brad));
             A = Arad * (180 / Math.PI);
-            
-            if (adjustedLat === 0 && B === 0) {
+
+            if (adjustedLat == 0 && B == 0) {
                 Az = "Irrelevant";
-            } else if (adjustedLat === 0 && B < 0) {
+            } else if (adjustedLat == 0 && B < 0) {
                 Az = 90;
-            } else if (adjustedLat === 0 && B > 0) {
+            } else if (adjustedLat == 0 && B > 0) {
                 Az = 270;
-            } else if (adjustedLat < 0 && B === 0) {
+            } else if (adjustedLat < 0 && B == 0) {
                 Az = 0;
-            } else if (adjustedLat > 0 && B === 0) {
+            } else if (adjustedLat > 0 && B == 0) {
                 Az = 180;
             } else if (adjustedLat < 0 && B < 0) {
                 Az = A;
@@ -193,34 +1120,68 @@
             } else if (adjustedLat > 0 && B > 0) {
                 Az = 180 + A;
             }
-            
+
             // Range
             d = Math.sqrt(1818392537 - 537253688 * Math.cos(brad));
-            
+
             // Elevation
             EL = (Math.acos(42164 * Math.sin(brad) / d)) * (180 / Math.PI);
-            
+
             // Limits of visibility
             S = Math.asin(0.15126648326 * Math.sin(95 * (Math.PI / 180)));
             brad_min = 85 * (Math.PI / 180) - S;
             b_min = brad_min * (180 / Math.PI);
             Brad_min = Math.acos(Math.cos(brad_min) / Math.cos(adjustedLat * (Math.PI / 180)));
             B_min = Brad_min * (180 / Math.PI);
-            VisibilityE = adjustedLon - B_min;
-            if (VisibilityE < -180) {
-                visibiltyE_dir = "E";
+            E_ES = adjustedLon + B_min;
+            W_ES = adjustedLon - B_min;
+
+            // Calculate East and West Limits
+            if (E_ES >= 0 && E_ES <= 180) {
+                E_ES_dir = "E"
+            } else if (E_ES > 180) {
+                E_ES = 360 - E_ES;
+                E_ES_dir = "W"
+            } else if (E_ES <= 0 && E_ES >= -180) {
+                E_ES_dir = "W"
             } else {
-                visibiltyE_dir = "W";
+                E_ES = 0;
             }
-            VisibilityE = Math.abs(VisibilityE);
-            VisibilityW = adjustedLon + B_min;
-            if (VisibilityW > 180) {
-                visibiltyW_dir = "W";
+
+            if (W_ES <= 0 && W_ES >= -180) {
+                W_ES_dir = "W"
+            } else if (W_ES < -180) {
+                W_ES = 360 + W_ES;
+                W_ES_dir = "E"
+            } else if (W_ES >= 0 && W_ES <= 180) {
+                W_ES_dir = "E"
             } else {
-                visibiltyW_dir = "E";
+                W_ES = 0;
             }
-            VisibilityW = Math.abs(VisibilityW);
-            
+
+            if (E_ES_dir == W_ES_dir) {
+                E_limit_dir = E_ES_dir;
+                W_limit_dir = W_ES_dir;
+                if (E_ES >= W_ES) {
+                    E_limit = Math.abs(E_ES);
+                    W_limit = Math.abs(W_ES);
+                } else {
+                    E_limit = Math.abs(W_ES);
+                    W_limit = Math.abs(E_ES);
+                }
+            } else if (E_ES_dir == "E") {
+                E_limit = Math.abs(E_ES);
+                W_limit = Math.abs(W_ES);
+                E_limit_dir = E_ES_dir;
+                W_limit_dir = W_ES_dir;
+            } else if (W_ES_dir == "E") {
+                E_limit = Math.abs(W_ES);
+                W_limit = Math.abs(E_ES);
+                E_limit_dir = W_ES_dir;
+                W_limit_dir = E_ES_dir;
+            }
+
+
             // Free Space Loss
             if (freqUnit === "KHz") {
                 f = freq * 1000;
@@ -230,59 +1191,90 @@
                 f = freq * 1000000000;
             }
             lambda = 300000000 / f;
-            FSL = 20 * Math.log10((4*Math.PI*d)/lambda)
-            
-            
+            FSL = 20 * Math.log10((4 * Math.PI * d * 1000) / lambda)
+
+
             // Polarization
-            Rx = 6371 * Math.cos(adjustedLat * (Math.PI / 180)) * Math.cos(Brad);
-            Ry = 6371 * Math.cos(adjustedLat * (Math.PI / 180)) * Math.sin(Brad);
-            Rz = 6371 * Math.sin(adjustedLat * (Math.PI / 180));
+            if (B == 0 && adjustedLat == 0) {
+                Pol = 90;
+            } else {
+                Rx = 6371 * Math.cos(adjustedLat * (Math.PI / 180)) * Math.cos(Brad);
+                Ry = 6371 * Math.cos(adjustedLat * (Math.PI / 180)) * Math.sin(Brad);
+                Rz = 6371 * Math.sin(adjustedLat * (Math.PI / 180));
 
-            rx = -1*Rx;
-            ry = -1*Ry;
-            rz = -1*Rz;
+                rx = -1 * Rx;
+                ry = -1 * Ry;
+                rz = -1 * Rz;
 
-            Kx = Rx - 42164;
-            Ky = Ry;
-            Kz = Rz;
+                Kx = Rx - 42164;
+                Ky = Ry;
+                Kz = Rz;
 
-            // F = K x r
-            Fx = Ky*rz - Kz*ry;
-            Fy = Kz*rx - Kx*rz;
-            Fz = Kx*ry - Ky*rx;
-            
-            // g = K x e
-            gx = Ky;
-            gy = -1*Kx;
-            gz = 0;
+                // F = K x r
+                Fx = Ky * rz - Kz * ry;
+                Fy = Kz * rx - Kx * rz;
+                Fz = Kx * ry - Ky * rx;
 
-            Fabs = Math.sqrt(Fx*Fx + Fy*Fy + Fz*Fz);
-            gabs = Math.sqrt(gx*gx + gy*gy + gz*gz);
-            dot = Fx*gx + Fy*gy + Fz*gz;
-            Pol = Math.acos(Math.abs(dot) / (Fabs*gabs)) * (180 / Math.PI);
-            
+                // g = K x e
+                gx = Ky;
+                gy = -1 * Kx;
+                gz = 0;
+
+                Fabs = Math.sqrt(Fx * Fx + Fy * Fy + Fz * Fz);
+                gabs = Math.sqrt(gx * gx + gy * gy + gz * gz);
+                dot = Fx * gx + Fy * gy + Fz * gz;
+                Pol = Math.acos(Math.abs(dot) / (Fabs * gabs)) * (180 / Math.PI);
+            }
+
+            // Rounding results
+            const roundedAz = isNaN(Az) ? Az : customRound(Az);
+            const roundedEL = isNaN(EL) ? EL : customRound(EL);
+            const roundedPol = isNaN(Pol) ? Pol : customRound(Pol);
+            const roundedRange = isNaN(d) ? d : customRound(d);
+            const roundedFSL = isNaN(FSL) ? FSL : customRound(FSL);
+            const roundedEastLimit = isNaN(E_limit) ? E_limit : customRound(E_limit);
+            const roundedWestLimit = isNaN(W_limit) ? W_limit : customRound(W_limit);
+
             // Display results
             const resultsDiv = document.getElementById("results");
             resultsDiv.style.display = "block";
+            resultsDiv.classList.remove("show"); // Reset animation
+            setTimeout(() => {
+                resultsDiv.classList.add("show");
+            }, 10); // Small delay to allow the browser to render the element before applying the animation
+
             resultsDiv.innerHTML = `
-            <p><strong>Azimuth Angle:</strong> ${Az}&deg;</p>
-            <p><strong>Elevation Angle:</strong> ${EL}&deg;</p>
-            <p><strong>Polarization Angle:</strong> ${Pol}&deg;</p>
-            <p><strong>Limits of Visibility (Related to the ground station):
-            <p></strong>East Visibility = ${VisibilityW}&deg${visibiltyW_dir}
-            <p></strong>West Visibility = ${VisibilityE}&deg${visibiltyE_dir}
-            <p><strong>Range:</strong> ${d} km</p>
-            <p><strong>Free Space Loss:</strong> ${FSL} dB</p>
+                <p><strong>Azimuth Angle:</strong> ${roundedAz}${isNaN(roundedAz) ? '' : '&deg;'}</p>
+                <p><strong>Elevation Angle:</strong> ${roundedEL}&deg;</p>
+                <p><strong>Polarization Angle:</strong> ${roundedPol}&deg;</p>
+                <p><strong>Range:</strong> ${roundedRange} km</p>
+                <p><strong>Free Space Loss:</strong> ${roundedFSL} dB</p>
+                <p><strong>Limits of Visibility (Related to the ground station):</strong></p>
+                <p>East The Earth Station = ${roundedEastLimit}&deg;${E_limit_dir}</p>
+                <p>West The Earth Station = ${roundedWestLimit}&deg;${W_limit_dir}</p>
             `;
-            }
+
+            // Restart satellite and earth station animations
+            const satellite = document.querySelector('.satellite');
+            const earthStation = document.querySelector('.earth-station');
+            satellite.style.animation = 'none';
+            earthStation.style.animation = 'none';
+            setTimeout(() => {
+                satellite.style.animation = '';
+                earthStation.style.animation = '';
+            }, 10);
+        }
+
 
         // Trigger calculation on Enter key press
-        document.getElementById("parametersForm").addEventListener("keypress", function(event) {
+        document.getElementById("parametersForm").addEventListener("keypress", function (event) {
             if (event.key === "Enter") {
                 event.preventDefault();
                 calculateParameters();
             }
         });
     </script>
+
 </body>
+
 </html>
